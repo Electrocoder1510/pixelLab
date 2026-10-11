@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0b0d12"><title>PixelLab — Image Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <a class="brand" href="/"><span class="mark"><i></i><i></i><i></i><i></i></span><span>pixel<span>lab</span><small>NUMPY IMAGE STUDIO</small></span></a>
+    <p class="side-label">WORKSPACE</p><button class="nav active" id="nav-editor">◫ &nbsp; Image editor <b>•</b></button><button class="nav" id="nav-analysis">▥ &nbsp; Image analysis</button>
+    <div class="side-rule"></div><p class="side-label">YOUR SESSION</p><div class="session"><span>↥</span><div><strong id="session-name">No image loaded</strong><small id="session-detail">Upload an image to begin</small></div></div>
+    <div class="side-bottom"><div class="numpy"><b>∑</b><span><strong>Powered by NumPy</strong><small>Pixel-level processing</small></span></div><div class="version">PIXELLAB <span>v1.0.0</span></div></div>
+  </aside>
+  <main>
+    <header class="topbar"><div><div class="eyebrow">WORKSPACE / <span>IMAGE EDITOR</span></div><h1>Image Studio</h1></div><div class="actions"><span class="status"><i></i> Local processing</span><button class="btn quiet" id="reset-btn" disabled>↺ Reset</button><button class="btn primary" id="download-btn" disabled>↓ Export image</button></div></header>
+    <section class="upload" id="dropzone" tabindex="0" role="button" aria-label="Upload image"><input type="file" id="file-input" accept="image/png,image/jpeg,image/webp,image/bmp" hidden><div class="upload-icon">↑</div><div class="upload-text"><strong>Drop an image here <span>or <button type="button" id="browse-btn">browse files</button></span></strong><small>PNG, JPG, WEBP or BMP · Max 12 MB</small></div><kbd>CTRL + O</kbd></section>
+    <div class="workspace">
+      <section class="panel canvas-panel"><div class="panel-head"><div><label>CANVAS</label><h2>Preview</h2></div><div class="canvas-tools"><span id="dimensions">NO IMAGE</span><button id="fit-btn" class="fit" title="Fit image">⛶</button></div></div>
+        <div class="stage" id="stage"><div class="empty" id="empty-state"><div class="landscape"><span></span><i></i><b></b></div><strong>Your canvas is waiting</strong><p>Upload a photo to experiment with pixel-level transformations.</p><button class="btn primary" id="empty-upload">↑ &nbsp; Upload an image</button></div>
+          <div id="compare-view" class="compare hidden"><div><label>ORIGINAL</label><img id="original-preview" alt="Original image"></div><div><label class="processed">PROCESSED</label><img id="processed-preview" alt="Processed image"></div></div>
+        </div><div class="canvas-foot"><span id="canvas-caption">No image selected</span><span>● &nbsp; RGB · 8-bit</span></div>
+      </section>
+      <aside class="panel tools"><div class="panel-head"><div><label>TOOLKIT</label><h2>Filters <em>08</em></h2></div><kbd>NUMPY</kbd></div>
+        <div class="filter-list" id="filter-list">{% for key,item in filters.items() %}<button class="filter-card{% if loop.first %} selected{% endif %}" data-filter="{{ key }}" type="button"><span class="filter-icon">{{ item.icon }}</span><span class="filter-copy"><strong>{{ item.label }}</strong><small>{{ item.description }}</small></span><span class="check">✓</span></button>{% endfor %}</div>
+        <div id="controls" class="controls"></div><button id="apply-btn" class="btn apply" disabled><span>Apply filter</span><b>→</b></button><p class="note">Your original image is always preserved.</p>
+      </aside>
+    </div>
+    <section class="bottom">
+      <div class="panel metrics"><div class="panel-head"><div><label>IMAGE METRICS</label><h2>Image information</h2></div><small class="live"><i></i> LIVE</small></div><div id="stats" class="stats"><div><label>DIMENSIONS</label><strong>—</strong><small>Width × height</small></div><div><label>DATA TYPE</label><strong>—</strong><small>Array dtype</small></div><div><label>PIXEL RANGE</label><strong>—</strong><small>Min to max</small></div><div><label>ARRAY MEMORY</label><strong>—</strong><small>Uncompressed RGB</small></div></div></div>
+      <div class="panel histogram-panel"><div class="panel-head"><div><label>PIXEL DISTRIBUTION</label><h2>RGB histogram</h2></div><div class="legend"><span><i class="r"></i>R</span><span><i class="g"></i>G</span><span><i class="b"></i>B</span></div></div><div id="histogram" class="histogram"><span>Histogram appears after upload.</span></div><div class="axis"><span>0</span><span>128</span><span>255</span></div></div>
+    </section>
+    <footer><span>PIXELLAB © 2026</span><span>BUILT WITH FLASK · NUMPY · PILLOW</span><span>MADE FOR CURIOUS MINDS ✳</span></footer>
+  </main>
+</div><div class="toast" id="toast" role="status"></div><script id="filter-config" type="application/json">{{ filters|tojson }}</script><script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+</body></html>
