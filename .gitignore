@@ -1,0 +1,14 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.env
+.DS_Store
+.idea/
+.vscode/
+.pytest_cache/
+.coverage
+instance/uploads/*
+instance/outputs/*
+!instance/uploads/.gitkeep
+!instance/outputs/.gitkeep
